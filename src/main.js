@@ -313,7 +313,7 @@ function addFromMesh(mesh) {
 }
 
 gltfLoader.load(
-  '/public/models/object.glb',
+  'public/models/object.glb',
   (res) => {
     let srcMesh = null;
     res.scene.traverse(o => {

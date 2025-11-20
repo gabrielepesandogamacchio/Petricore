@@ -38,6 +38,8 @@ const tmpWorldPos = new THREE.Vector3();
 const smoothMouseWorld = new THREE.Vector3(9999, 9999, 9999); // segue piano piano il mouse
 let hasMouseWorld = false; // sappiamo se abbiamo una posizione valida "agganciata"
 
+// MOBILE: posizione automatica della calamita
+const autoMouseWorld = new THREE.Vector3();
 
 // luci sobrie
 scene.add(new THREE.AmbientLight(0xffffff, 0.15));
@@ -49,10 +51,10 @@ fill.position.set(-3, 1, 1);
 scene.add(fill);
 
 /* ---------- controlli look ---------- */
-const IS_MOBILE = /Mobi|Android/i.test(navigator.userAgent);
+// Consideriamo "mobile" TUTTO fino a 1024px (iPad orizzontale incluso)
+const IS_MOBILE = window.innerWidth <= 1024;
 const COUNT_DESKTOP = 250_000;
 const COUNT_MOBILE  = 120_000;
-
 
 const P = {
   uTime: { value: 0 },
@@ -72,6 +74,12 @@ const P = {
   uMouseStrength: { value: 0.44 },
   uMouseRadius: { value: -0.2 }
 };
+
+if (IS_MOBILE) {
+  // raggio e forza un filo più ampi → effetto sempre visibile
+  P.uMouseRadius.value = -0.2;
+  P.uMouseStrength.value = 0.55;
+}
 
 /* ---------- shader: sabbia granulare ---------- */
 const particlesVert = /* glsl */`
@@ -278,23 +286,26 @@ function updateMouseWorld(clientX, clientY){
   }
 }
 
+// DESKTOP: interazione reale con mouse/touchpad
+if (!IS_MOBILE) {
+  window.addEventListener('mousemove', (e) => {
+    updateMouseWorld(e.clientX, e.clientY);
+  }, { passive: true });
 
-window.addEventListener('mousemove', (e) => {
-  updateMouseWorld(e.clientX, e.clientY);
-}, { passive: true });
+  // opzionale: se vuoi tenere anche il touch su tablet non-mobile
+  window.addEventListener('touchmove', (e) => {
+    const t = e.touches[0];
+    if (t) updateMouseWorld(t.clientX, t.clientY);
+  }, { passive: true });
+}
 
-window.addEventListener('touchmove', (e) => {
-  const t = e.touches[0];
-  if (t) updateMouseWorld(t.clientX, t.clientY);
-}, { passive: true });
-
+// su mobile niente mouseleave specifico perché la calamita è automatica
 canvas.addEventListener('mouseleave', () => {
   hasMouseWorld = false; // dimentica la posizione: al prossimo ingresso faremo di nuovo lo "snap"
   mouseWorld.set(9999, 9999, 9999);
   smoothMouseWorld.set(9999, 9999, 9999);
   P.uMouseWorld.value.set(9999, 9999, 9999);
 });
-
 
 // posizione/rotazione modello nella scena
 const MODEL_OFFSET = new THREE.Vector3(0, 0, 0);
@@ -379,14 +390,19 @@ function onMove(x, y) {
   mouse.y = y / window.innerHeight - 0.5;
 }
 
-window.addEventListener('mousemove', (e) => {
-  onMove(e.clientX, e.clientY);
-}, { passive: true });
+// DESKTOP: parallax controllato dal cursore
+if (!IS_MOBILE) {
+  window.addEventListener('mousemove', (e) => {
+    onMove(e.clientX, e.clientY);
+  }, { passive: true });
 
-window.addEventListener('touchmove', (e) => {
-  const t = e.touches[0];
-  if (t) onMove(t.clientX, t.clientY);
-}, { passive: true });
+  window.addEventListener('touchmove', (e) => {
+    const t = e.touches[0];
+    if (t) onMove(t.clientX, t.clientY);
+  }, { passive: true });
+}
+
+// su mobile nessun onMove -> camera rimane "centrata", solo animazione di scroll
 
 /* ---------- resize ---------- */
 window.addEventListener('resize', () => {
@@ -401,23 +417,41 @@ window.addEventListener("beforeunload", () => {
   window.scrollTo(0, 0);
 });
 
-
 /* ---------- loop ---------- */
 const clock = new THREE.Clock();
 
 function tick() {
   P.uTime.value = clock.getElapsedTime();
 
-  // magnete lento: smoothMouseWorld insegue mouseWorld
-// --- 1) magnete: solo se abbiamo una posizione valida ---
-  if (hasMouseWorld) {
-    smoothMouseWorld.lerp(mouseWorld, 0.08);
+  // --- calamita / "bolla" ---
+  if (IS_MOBILE) {
+    // MOBILE: movimento automatico intorno al modello
+    const t = P.uTime.value * 0.35;  // velocità dell'orbita
+    pivot.getWorldPosition(tmpWorldPos);
+
+    // piccolo percorso lissajous attorno al pivot
+    const radiusX = 0.7;
+    const radiusY = 1;
+
+    autoMouseWorld.set(
+      tmpWorldPos.x + Math.cos(t) * radiusX,
+      tmpWorldPos.y + Math.sin(t * 0.8) * radiusY,
+      tmpWorldPos.z
+    );
+
+    // smoothing morbido
+    smoothMouseWorld.lerp(autoMouseWorld, 0.08);
     P.uMouseWorld.value.copy(smoothMouseWorld);
   } else {
-    // nessun mouse "attivo" → tieni la calamita lontana
-    P.uMouseWorld.value.set(9999, 9999, 9999);
+    // DESKTOP: come prima, segue il cursore
+    if (hasMouseWorld) {
+      smoothMouseWorld.lerp(mouseWorld, 0.08);
+      P.uMouseWorld.value.copy(smoothMouseWorld);
+    } else {
+      // nessun mouse "attivo" → tieni la calamita lontana
+      P.uMouseWorld.value.set(9999, 9999, 9999);
+    }
   }
-
 
   // camera dinamica
   const tx = mouse.x * 0.55;

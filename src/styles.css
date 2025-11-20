@@ -246,13 +246,21 @@
   /* ===================== GIOIELLO 1 – PANEL NELLA HERO ===================== */
   
   .jewel-hero-panel {
+    justify-content: center;
     position: absolute;
     left: 50%;
     top: 10%;
-    transform: translate(-50%, 30vh); /* parte più in basso (fuori campo) */
-    opacity: 0;
-    pointer-events: none;
+    transform: translate(-50%, 25vh); /* leggermente meno basso (prima 30vh) */
+    width: 100%;
+    display: flex;
+    pointer-events: none; /* opzionale, se non vuoi click qui */
   }
+  
+  .jewel-hero-panel .nb-wrapper {
+    pointer-events: auto; /* ma il contenuto resta cliccabile */
+  }
+  
+  
   
   /* wrapper centrale con frame che abbraccia tutto */
   .nb-wrapper {
@@ -274,8 +282,8 @@
   
   .nb-frame-corner {
     position: absolute;
-    width: 36px;
-    height: 36px;
+    width: 46px;
+    height: 46px;
     border-color: #ffffff;
     border-style: solid;
     pointer-events: none;
@@ -292,12 +300,12 @@
     border-width: 2px 2px 0 0;
   }
   .nb-frame-bl {
-    bottom: 26px;
+    bottom: 40px;
     left: 40px;
     border-width: 0 0 2px 2px;
   }
   .nb-frame-br {
-    bottom: 26px;
+    bottom: 40px;
     right: 40px;
     border-width: 0 2px 2px 0;
   }
@@ -333,21 +341,23 @@
   }
   
   .nb-image {
-    max-height: 56vh;
+    max-height: 20vh;
     width: auto;
     display: block;
     margin: 0 auto;
+    background-size: cover;
+    transform: scale(3.5);
   }
   
   .nb-image2 {
-    max-height: 40vh;
+    max-height: 20vh;
     width: auto;
     display: block;
     margin: 0 auto;
   }
   
   .nb-image3 {
-    max-height: 30vh;
+    max-height: 20vh;
     width: auto;
     display: block;
     margin: 0 auto;
@@ -404,6 +414,25 @@
     .nb-wrapper {
       padding: 84px 44px 54px;
     }
+
+    .nb-image3 {
+        max-height: 15vh;
+        width: auto;
+        display: block;
+        margin: 0 auto;
+        padding-bottom: 2.5rem;
+      }
+
+      .nb-image{
+        max-height: 35vh;
+      width: auto;
+      display: block;
+      margin: 0 auto;
+      background-size: cover;
+      transform: scale(1);
+      clip-path: inset(20% 5% 15% 20%);
+      }
+      
   
     .nb-grid {
       grid-template-columns: 1fr;
@@ -415,6 +444,10 @@
       align-items: flex-start;
       text-align: left;
     }
+
+    .nb-specs-block,.mobile {
+        display: none !important;
+      }
   
     .nb-main {
       order: 2;
@@ -448,11 +481,28 @@
     scroll-margin-top: 80px;
   }
   
-  .rings-wrapper {
-    position: relative;
-    width: min(1200px, 92vw);
-    padding: 96px 80px 80px;
-  }
+  /* === WRAPPER COMUNE PER LE SEZIONI CON CORNICE === */
+
+.rings-wrapper,
+.nb-wrapper {
+  position: relative;
+  width: min(1200px, 92vw);
+  padding: 96px 80px 80px;
+  /* occupa buona parte della view ma non 100% */
+  min-height: min(720px, 80svh);
+
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+/* la griglia interna si allarga in orizzontale */
+.rings-grid,
+.nb-grid {
+  width: 100%;
+  flex: 1;
+}
+
   
   /* Cornici */
   .rings-frame-corner {
@@ -569,14 +619,35 @@
   
   /* Responsive anelli */
   @media (max-width: 900px) {
+    .mobile {
+        display: none !important;
+    }
+
     .rings {
       padding: 0 4vw;
     }
   
-    .rings-wrapper {
+    /* === WRAPPER COMUNE PER LE SEZIONI CON CORNICE === */
+
+    .rings-wrapper,
+    .nb-wrapper {
+        margin-top: 5rem;
       padding: 84px 32px 54px;
+      min-height: 80svh; /* anche su mobile “pagina” piena */
     }
-  
+
+/* la griglia interna si allarga in orizzontale */
+.rings-grid,
+.nb-grid {
+  width: 100%;
+  flex: 1;
+}
+
+.rings-grid,
+.nb-grid {
+  flex-direction: column;
+}
+
     .rings-grid {
       grid-template-columns: 1fr;
       row-gap: 48px;
@@ -597,6 +668,7 @@
   /* ============================= */
   
   .full-video-section {
+      margin-top: 5rem;
     position: relative;
     width: 100%;
     height: 100vh;
@@ -674,11 +746,13 @@
   /* responsive video split */
   @media (max-width: 900px) {
     .video-text-split {
-      flex-direction: column;
-      text-align: center;
-      gap: 2rem;
-      padding: 0 2rem;
-    }
+        flex-direction: column;
+        justify-content: center;   /* VERTICALE: centro */
+        align-items: center;       /* ORIZZONTALE: centro */
+        text-align: center;
+        gap: 2rem;
+        padding: 0 2rem;
+      }
   
     .video-left,
     .video-right {
@@ -690,6 +764,37 @@
       font-size: 2.4rem;
     }
   }
+
+  .full-video-section {
+    height: 100svh; /* su mobile: full screen reale */
+  }
+
+  .full-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* riempie tutto lo schermo */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+ 
+
+  .video-left p {
+    opacity: 0.8;
+    font-size: 1.1rem;
+    max-width: 100%;
+  }
+
+  .video-left,
+  .video-right {
+    text-align: center;
+  }
+
+  .video-left h1 {
+    font-size: 2.4rem;
+  }
+
   
   /* ===================== FOOTER ===================== */
   

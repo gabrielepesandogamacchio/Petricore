@@ -527,20 +527,32 @@
       const t = e.touches && e.touches[0];
       if (!t || lastTouchY == null) return;
 
-      // swipe up => dy positivo (equivale a scroll down)
+      // swipe up => dy positivo (avanti)
+      // swipe down => dy negativo (indietro)
       const dy = lastTouchY - t.clientY;
       lastTouchY = t.clientY;
 
       const startY = heroSection.offsetTop;
 
-      // finché sei nel portale (locked o progress < 1) consumi lo swipe
-      if (heroLock.locked || heroLock.progress < 1) {
+      // ✅ Dentro la hero: lo swipe controlla SEMPRE il progress (anche reverse)
+      // finché non sei "uscito" davvero dalla hero (cioè quando progress>=1 e vuoi scendere alle sezioni)
+      const SENS_TOUCH = 0.0022; // tarabile
+
+      // Se stai ancora nel portale (progress < 1) oppure stai tornando indietro (dy < 0),
+      // allora consumiamo lo swipe e restiamo inchiodati alla hero.
+      const goingBack = dy < 0;
+      const portalActive = heroLock.progress < 1;
+
+      if (portalActive || goingBack) {
         e.preventDefault(); // IMPORTANTISSIMO su iOS
-        const SENS_TOUCH = 0.0022; // sensibilità mobile (tarabile)
         heroLock.setProgress(heroLock.progress + dy * SENS_TOUCH);
         smoothScrollTo(startY);
+        return;
       }
+
+      // ✅ Altrimenti (progress>=1 e stai andando avanti) -> scroll normale
     }, { passive: false });
+
 
     // =========================
     // Click su link con hash (#...)

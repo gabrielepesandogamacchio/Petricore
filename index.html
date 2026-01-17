@@ -427,125 +427,163 @@
     </script>
 
     <!-- Scroll fluido / lenta rotella -->
-    <script>
-      (function () {
-        const SCROLL_FACTOR = 0.35;  // wheel più lento = abbassa
-        const EASE = 0.18;           // easing “viscoso” dello scroll
+    <!-- Scroll fluido / lenta rotella + mobile swipe -->
+<script>
+  (function () {
+    const SCROLL_FACTOR = 0.35;  // wheel più lento = abbassa
+    const EASE = 0.18;           // easing “viscoso” dello scroll
 
-        let targetY = window.scrollY;
-        let currentY = window.scrollY;
-        let animating = false;
+    let targetY = window.scrollY;
+    let currentY = window.scrollY;
+    let animating = false;
 
-        function clampScroll(y) {
-          const maxScroll =
-            document.documentElement.scrollHeight - window.innerHeight;
-          return Math.max(0, Math.min(y, maxScroll));
+    // ✅ prende la hero subito (prima di usarla)
+    const heroSection = document.getElementById("heroSection");
+
+    function clampScroll(y) {
+      const maxScroll =
+        document.documentElement.scrollHeight - window.innerHeight;
+      return Math.max(0, Math.min(y, maxScroll));
+    }
+
+    function smoothScrollTo(y) {
+      targetY = clampScroll(y);
+      if (!animating) {
+        animating = true;
+        requestAnimationFrame(updateScroll);
+      }
+    }
+
+    function updateScroll() {
+      currentY += (targetY - currentY) * EASE;
+      window.scrollTo(0, currentY);
+
+      if (Math.abs(targetY - currentY) > 0.5) {
+        requestAnimationFrame(updateScroll);
+      } else {
+        window.scrollTo(0, targetY);
+        animating = false;
+      }
+    }
+
+    function isInHeroZone() {
+      if (!heroSection) return false;
+      const startY = heroSection.offsetTop;
+      const endY = startY + heroSection.offsetHeight - window.innerHeight;
+      const y = window.scrollY;
+      return y >= startY - 2 && y <= endY + 2;
+    }
+
+    // =========================
+    // DESKTOP: wheel/trackpad
+    // =========================
+    function onWheel(e) {
+      e.preventDefault();
+      const delta = e.deltaY * SCROLL_FACTOR;
+
+      const heroLock = window.__heroLock;
+      const startY = heroSection ? heroSection.offsetTop : 0;
+
+      if (heroLock && isInHeroZone()) {
+        const SENS = 0.0009; // sensibilità desktop
+        const nextP = heroLock.progress + delta * SENS;
+
+        // finché progress < 1 consumiamo lo scroll dentro la hero (anche reverse)
+        if (nextP < 1) {
+          heroLock.setProgress(nextP);
+          smoothScrollTo(startY);
+          return;
         }
 
-        function smoothScrollTo(y) {
-          targetY = clampScroll(y);
-          if (!animating) {
-            animating = true;
-            requestAnimationFrame(updateScroll);
-          }
+        // oltre 1: sblocca e scroll normale
+        heroLock.setProgress(nextP);
+        if (heroLock.locked) {
+          smoothScrollTo(startY);
+          return;
         }
+      }
 
-        function updateScroll() {
-          currentY += (targetY - currentY) * EASE;
-          window.scrollTo(0, currentY);
+      // scroll normale fuori hero
+      smoothScrollTo(targetY + delta);
+    }
 
-          if (Math.abs(targetY - currentY) > 0.5) {
-            requestAnimationFrame(updateScroll);
-          } else {
-            window.scrollTo(0, targetY);
-            animating = false;
-          }
-        }
+    window.addEventListener("wheel", onWheel, { passive: false });
 
-        // Scroll da rotella / trackpad
-        function onWheel(e) {
-          e.preventDefault();
-          const delta = e.deltaY * SCROLL_FACTOR;
+    // =========================
+    // MOBILE: swipe touch
+    // =========================
+    let lastTouchY = null;
 
-          const heroLock = window.__heroLock;
-          const startY = heroSection?.offsetTop || 0;
+    window.addEventListener("touchstart", (e) => {
+      const t = e.touches && e.touches[0];
+      lastTouchY = t ? t.clientY : null;
+    }, { passive: true });
 
-          // consideriamo "inHero zone" finché sei nel range della hero sticky
-          const inHeroZone =
-            window.scrollY >= startY - 2 &&
-            window.scrollY <= startY + (heroSection?.offsetHeight || 0) - window.innerHeight + 2;
+    window.addEventListener("touchmove", (e) => {
+      const heroLock = window.__heroLock;
+      if (!heroLock || !heroSection) return;
+      if (!isInHeroZone()) return;
 
-          if (heroLock && inHeroZone) {
-            // 🔁 usa la wheel per muovere il progress avanti/indietro
-            const SENS = 0.0009; // stessa sensibilità
-            const nextP = heroLock.progress + delta * SENS;
+      const t = e.touches && e.touches[0];
+      if (!t || lastTouchY == null) return;
 
-            // se stai tornando indietro, forza il lock
-            if (nextP < 1) {
-              // quando scendi sotto 1, vogliamo che la pagina resti nella hero
-              // (evita che scrolli via mentre fai reverse)
-              heroLock.setProgress(nextP);
-              smoothScrollTo(startY);
-              return;
-            }
+      // swipe up => dy positivo (equivale a scroll down)
+      const dy = lastTouchY - t.clientY;
+      lastTouchY = t.clientY;
 
-            // se vai avanti oltre 1, sblocchi e scroll normale
-            heroLock.setProgress(nextP);
-            if (heroLock.locked) {
-              smoothScrollTo(startY);
-              return;
-            }
-          }
+      const startY = heroSection.offsetTop;
 
-          // scroll normale fuori hero
-          smoothScrollTo(targetY + delta);
-        }
+      // finché sei nel portale (locked o progress < 1) consumi lo swipe
+      if (heroLock.locked || heroLock.progress < 1) {
+        e.preventDefault(); // IMPORTANTISSIMO su iOS
+        const SENS_TOUCH = 0.0022; // sensibilità mobile (tarabile)
+        heroLock.setProgress(heroLock.progress + dy * SENS_TOUCH);
+        smoothScrollTo(startY);
+      }
+    }, { passive: false });
 
+    // =========================
+    // Click su link con hash (#...)
+    // =========================
+    function handleNavClick(e) {
+      const link = e.target.closest('a[href^="#"]');
+      if (!link) return;
 
-        window.addEventListener("wheel", onWheel, { passive: false });
+      const hash = link.getAttribute("href");
+      if (!hash || hash === "#") return;
 
-        // Scroll lento dai link con hash (#...)
-        const heroSection = document.getElementById("heroSection");
+      const targetEl = document.querySelector(hash);
+      if (!targetEl && hash !== "#jewel-1" && hash !== "#heroSection") return;
 
-        function handleNavClick(e) {
-          const link = e.target.closest('a[href^="#"]');
-          if (!link) return;
+      e.preventDefault();
 
-          const hash = link.getAttribute("href");
-          if (!hash || hash === "#") return;
+      // HOME → torna su
+      if (hash === "#heroSection") {
+        smoothScrollTo(0);
+        return;
+      }
 
-          const targetEl = document.querySelector(hash);
-          if (!targetEl && hash !== "#jewel-1" && hash !== "#heroSection") return;
+      // Gioiello 1 è dentro la hero sticky
+      if (hash === "#jewel-1" && heroSection) {
+        const startY = heroSection.offsetTop;
+        const endY = startY + heroSection.offsetHeight - window.innerHeight;
+        const p = 0.66;
+        const y = startY + (endY - startY) * p;
+        smoothScrollTo(y);
+        return;
+      }
 
-          e.preventDefault();
+      // altri anchor (es. #anelli, #anelli-specs, ecc.)
+      const rect = targetEl.getBoundingClientRect();
+      const NAV_OFFSET = 80; // offset top bar
+      const y = rect.top + window.scrollY - NAV_OFFSET;
+      smoothScrollTo(y);
+    }
 
-          // HOME → torna su
-          if (hash === "#heroSection") {
-            smoothScrollTo(0);
-            return;
-          }
+    document.addEventListener("click", handleNavClick);
+  })();
+</script>
 
-          // Gioiello 1 è dentro la hero sticky
-          if (hash === "#jewel-1" && heroSection) {
-            const startY = heroSection.offsetTop;
-            const endY = startY + heroSection.offsetHeight - window.innerHeight;
-            const p = 0.66;
-            const y = startY + (endY - startY) * p;
-            smoothScrollTo(y);
-            return;
-          }
-
-          // altri anchor (es. #anelli, #anelli-specs, ecc.)
-          const rect = targetEl.getBoundingClientRect();
-          const NAV_OFFSET = 80; // altezza ipotetica navbar
-          const y = rect.top + window.scrollY - NAV_OFFSET;
-
-          smoothScrollTo(y);
-        }
-
-        document.addEventListener("click", handleNavClick);
-      })();
-    </script>
 
     <!-- Cursore custom + scia -->
     <script>

@@ -3,10 +3,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Lumière – Gioielli</title>
+
+  <title>Petricore</title>
 
   <!-- CSS -->
   <link rel="stylesheet" href="src/styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+
 
   <!-- Three.js import map -->
   <script type="importmap">
@@ -18,7 +23,24 @@
     }
   </script>
 </head>
-<body>
+
+<body class="is-loading">
+  <!-- LOADER FULLSCREEN -->
+  <div id="loader" class="site-loader">
+    <div class="loader-frame">
+      <span class="loader-corner tl"></span>
+      <span class="loader-corner tr"></span>
+      <span class="loader-corner bl"></span>
+      <span class="loader-corner br"></span>
+
+      <div class="loader-content">
+        <!-- DOPO -->
+        <img src="public/images/logo.png" alt="Logo" class="loader-logo" />
+        <p class="loader-title" style="margin-top: 3rem;">LOADING...</p>
+      </div>
+    </div>
+  </div>
+
   <!-- Cursor custom -->
   <div id="cursor">
     <span class="cursor-corner tl"></span>
@@ -28,8 +50,8 @@
     <span class="cursor-dot"></span>
   </div>
 
-  <!-- Barra scroll hint -->
-  <div class="scroll">
+   <!-- Barra scroll hint -->
+   <div class="scroll">
     <div class="scroll-arrows" aria-hidden="true">
       <span class="arrow"></span>
       <span class="arrow"></span>
@@ -37,7 +59,7 @@
     </div>
 
     <div class="scroll-center">
-      <span class="scroll-label">Scroll Deep and Slowly</span>
+      <span class="scroll-label">Scroll Down Slowly</span>
     </div>
 
     <div class="scroll-arrows" aria-hidden="true">
@@ -47,554 +69,641 @@
     </div>
   </div>
 
-  <!-- HERO sticky con canvas 3D -->
-  <section class="sticky-section" id="heroSection" aria-label="Hero 3D" data-scroll-text="Scroll Deep and Slowly">
-    <div class="sticky-inner" id="heroInner">
-      <canvas class="webgl" aria-label="Oggetto 3D in dissolvenza"></canvas>
-      <img src="public/images/logo.png" alt="Logo" class="center-logo" />
+  <!-- WRAPPER CENTRALE (max-width 1400px) -->
+  <div id="page" class="page page-container">
 
-      <!-- GIOIELLO 1 DENTRO LA HERO -->
-      <div class="jewel-hero-panel" id="jewel-1">
-        <div class="nb-wrapper">
+    <!-- HERO sticky con canvas 3D -->
+    <section class="sticky-section" id="heroSection" aria-label="Hero 3D" data-scroll-text="Scroll Down Slowly">
+      <div class="sticky-inner" id="heroInner">
+        <canvas class="webgl" aria-label="Oggetto 3D in dissolvenza"></canvas>
+        <img src="public/images/logo.png" alt="Logo" class="center-logo" />
 
-          <!-- CORNICE ESTERNA -->
-          <span class="nb-frame-corner nb-frame-tl"></span>
-          <span class="nb-frame-corner nb-frame-tr"></span>
-          <span class="nb-frame-corner nb-frame-bl"></span>
-          <span class="nb-frame-corner nb-frame-br"></span>
+        <!-- GIOIELLO 1 DENTRO LA HERO -->
+        <div class="jewel-hero-panel" id="jewel-1">
+          <div class="nb-wrapper">
 
-          <!-- CONTENUTO -->
-          <div class="nb-grid">
-            <!-- COLONNA SINISTRA: specifiche -->
-            <div class="nb-specs">
-              <div class="nb-spec-block mobile">
-                <h3>OBJECT DETECTED</h3>
-                <p>3D UNIT</p>
-                <p>OBJECT UNIDENTIFIED</p>
+            <!-- CORNICE ESTERNA -->
+            <span class="nb-frame-corner nb-frame-tl"></span>
+            <span class="nb-frame-corner nb-frame-tr"></span>
+            <span class="nb-frame-corner nb-frame-bl"></span>
+            <span class="nb-frame-corner nb-frame-br"></span>
+
+            <!-- CONTENUTO -->
+            <div class="nb-grid">
+              <!-- COLONNA SINISTRA: specifiche -->
+              <div class="nb-specs">
+                <div class="nb-spec-block mobile">
+                  <h3>OBJECT DETECTED</h3>
+                  <p>3D UNIT</p>
+                  <p>ANCIENT EAR WEIGHT</p>
+                  <p>Unknown Seal</p>
+                </div>
+
+                <div class="nb-spec-block mobile">
+                  <h3>MATERIAL SPECS</h3>
+                  <p>925 – STERLING SILVER</p>
+                  <p>BRONZE</p>
+                </div>
+
+                <div class="nb-spec-block">
+                  <h3>SIZE</h3>
+                  <p>2.55 mm height x 8.0g</p>
+                  <p>1.50 mm hight x 5.0g</p>
+                </div>
               </div>
 
-              <div class="nb-spec-block mobile">
-                <h3>MATERIAL SPECS</h3>
-                <p>925 – STERLING SILVER</p>
-                <p>BRONZE</p>
+              <!-- COLONNA CENTRALE: video + nome -->
+              <div class="nb-main">
+                <video
+                  class="nb-image"
+                  src="public/videos/Timeline 1.mp4"
+                  autoplay
+                  muted
+                  loop
+                  playsinline
+                ></video>
               </div>
 
-              <div class="nb-spec-block">
-                <h3>SIZE</h3>
-                <p>55 – STERLING SILVER</p>
-                <p>BRONZE</p>
+              <!-- COLONNA DESTRA: CTA -->
+              <div class="nb-cta-area">
+                <a
+                  class="nb-cta-btn"
+                  href="https://www.instagram.com/petricore.obj/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  DISCOVER MORE
+                </a>
+
+                <p class="nb-cta-meta">
+                  ACCES THEN SEAL
+                </p>
               </div>
             </div>
+          </div>
+        </div>
+        <!-- /jewel-hero-panel -->
+      </div>
+    </section>
 
-            <!-- COLONNA CENTRALE: video + nome -->
-            <div class="nb-main">
+    <!-- ANELLI – GRID 3 PEZZI (prima sezione) -->
+    <section class="section rings" id="anelli" aria-label="Anelli Nabucodonosor" data-scroll-text="OBJECT 01">
+      <div class="rings-wrapper">
+
+        <!-- Cornice esterna -->
+        <span class="rings-frame-corner rings-frame-tl"></span>
+        <span class="rings-frame-corner rings-frame-tr"></span>
+        <span class="rings-frame-corner rings-frame-bl"></span>
+        <span class="rings-frame-corner rings-frame-br"></span>
+
+        <!-- Griglia 3 colonne -->
+        <div class="rings-grid">
+
+          <!-- CARD 1 -->
+          <article class="ring-card">
+            <header class="ring-spec-center">
+              <h3>OBJECT DETECTED</h3>
+              <p>&gt; 0 – DUE</p>
+              <p>&gt; Snake vertebral column</p>
+            </header>
+
+            <div class="ring-media2">
               <video
-                class="nb-image"
-                src="public/videos/Timeline 1.mp4"
+                class="nb-image3"
+                src="public/videos/Timeline 5.mp4"
                 autoplay
                 muted
                 loop
                 playsinline
               ></video>
-
-              <p class="nb-name">NABUCODONOSOR</p>
             </div>
 
-            <!-- COLONNA DESTRA: CTA -->
+            <p class="ring-name">
+              UROBORUS
+            </p>
+
             <div class="nb-cta-area">
-              <button class="nb-cta-btn" type="button">
+              <a
+                class="nb-cta-btn"
+                href="https://www.instagram.com/petricore.obj/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 DISCOVER MORE
-              </button>
-              <p class="nb-cta-meta">
-                3D UNIT<br />
-                OBJECT UNIDENTIFIED
+              </a>
+
+            <div>
+          </article>
+
+          <!-- CARD 2 -->
+          <article class="ring-card mobile">
+            <p class="ring-name">
+              UROBORUS
+            </p>
+
+            <header class="ring-spec-center">
+              <p>
+               The Hermetic cycle Trasforming and refining Matter
               </p>
+            </header>
+          </article>
+
+          <!-- CARD 3 -->
+          <article class="ring-card">
+            <header class="ring-spec-center">
+              <h3>MATERIAL SPECS DETECTED</h3>
+              <p>&gt; 925 - STERLING SILVER</p>
+              <p>&gt; Bonze</p>
+            </header>
+
+            <div class="ring-media2">
+              <video
+                class="nb-image3"
+                src="public/videos/Timeline 5.mp4"
+                autoplay
+                muted
+                loop
+                playsinline
+              ></video>
             </div>
-          </div>
+
+            <p class="ring-name">
+              UROBORUS
+            </p>
+
+            <div class="nb-cta-area">
+              <a
+                class="nb-cta-btn"
+                href="https://www.instagram.com/petricore.obj/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                DISCOVER MORE
+              </a>
+
+            <div>
+          </article>
+
         </div>
       </div>
-      <!-- /jewel-hero-panel -->
-    </div>
-  </section>
+    </section>
 
-  <!-- ANELLI – GRID 3 PEZZI (prima sezione) -->
-  <section class="section rings" id="anelli" aria-label="Anelli Nabucodonosor" data-scroll-text="OBJECT 01">
-    <div class="rings-wrapper">
+    <!-- ANELLI – GRID 3 PEZZI (seconda sezione, id univoco) -->
+    <section class="section rings" id="anelli-specs" aria-label="Dettagli Anelli Nabucodonosor" data-scroll-text="OBJECT 02">
+      <div class="rings-wrapper">
 
-      <!-- Cornice esterna -->
-      <span class="rings-frame-corner rings-frame-tl"></span>
-      <span class="rings-frame-corner rings-frame-tr"></span>
-      <span class="rings-frame-corner rings-frame-bl"></span>
-      <span class="rings-frame-corner rings-frame-br"></span>
+        <!-- Cornice esterna -->
+        <span class="rings-frame-corner rings-frame-tl"></span>
+        <span class="rings-frame-corner rings-frame-tr"></span>
+        <span class="rings-frame-corner rings-frame-bl"></span>
+        <span class="rings-frame-corner rings-frame-br"></span>
 
-      <!-- Griglia 3 colonne -->
-      <div class="rings-grid">
+        <!-- Griglia 3 colonne -->
+        <div class="rings-grid">
 
-        <!-- CARD 1 -->
-        <article class="ring-card">
-          <header class="ring-spec-center">
-            <h3>OBJECT DETECTED</h3>
-            <p>&gt; 0 – UNO</p>
-            <p>&gt; object unidentified</p>
-          </header>
+          <!-- CARD 1 -->
+          <article class="ring-card">
+            <header class="ring-spec-center">
+              <h3>SILVER RING</h3>
+            </header>
 
-          <div class="ring-media2">
-            <video
-              class="nb-image3"
-              src="public/videos/Timeline 5.mp4"
-              autoplay
-              muted
-              loop
-              playsinline
-            ></video>
-          </div>
+            <div class="ring-media">
+              <video
+                class="nb-image2"
+                src="public/videos/Timeline 2.mp4"
+                autoplay
+                muted
+                loop
+                playsinline
+              ></video>
+            </div>
 
-          <p class="ring-name">
-            N A B U C O D O N O S O R<br/>
-            <span class="ring-sub">R I N G</span>
-          </p>
-
-          <button class="ring-cta" type="button">
-            DISCOVER MORE
-          </button>
-        </article>
-
-        <!-- CARD 2 -->
-        <article class="ring-card mobile">
-          <p class="ring-name">
-            N A B U C O D O N O S O R
-          </p>
-
-          <header class="ring-spec-center">
-            <p>
-              &gt; descrizione descrizione...jfjfdksjflka fjdkslajfsl
-              fjdklsajfòlaksj jfdkslajfòlksajf
+            <p class="ring-name">
+              1
             </p>
-          </header>
-        </article>
 
-        <!-- CARD 3 -->
-        <article class="ring-card">
-          <header class="ring-spec-center">
-            <h3>OBJECT DETECTED</h3>
-            <p>&gt; 0 – UNO</p>
-            <p>&gt; object unidentified</p>
-          </header>
+            <div class="nb-cta-area">
+              <a
+                class="nb-cta-btn"
+                href="https://www.instagram.com/petricore.obj/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                DISCOVER MORE
+              </a>
 
-          <div class="ring-media2">
-            <video
-              class="nb-image3"
-              src="public/videos/Timeline 5.mp4"
-              autoplay
-              muted
-              loop
-              playsinline
-            ></video>
-          </div>
+            <div>
+          </article>
 
-          <p class="ring-name">
-            N A B U C O D O N O S O R<br/>
-            <span class="ring-sub">R I N G</span>
-          </p>
+          <!-- CARD 2 -->
+          <article class="ring-card">
+            <header class="ring-spec-center">
+              <h3>SILVER RING</h3>
+            </header>
 
-          <button class="ring-cta" type="button">
-            DISCOVER MORE
-          </button>
-        </article>
+            <div class="ring-media">
+              <video
+                class="nb-image2"
+                src="public/videos/Timeline 3.mp4"
+                autoplay
+                muted
+                loop
+                playsinline
+              ></video>
+            </div>
 
+            <p class="ring-name">
+              2
+            </p>
+
+            <div class="nb-cta-area">
+              <a
+              class="nb-cta-btn"
+              href="https://www.instagram.com/petricore.obj/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              DISCOVER MORE
+            </a>
+            
+            <div>
+          </article>
+
+          <!-- CARD 3 -->
+          <article class="ring-card">
+            <header class="ring-spec-center">
+              <h3>SILVER RING</h3>
+            </header>
+
+            <div class="ring-media">
+              <video
+                class="nb-image2"
+                src="public/videos/Timeline 4.mp4"
+                autoplay
+                muted
+                loop
+                playsinline
+              ></video>
+            </div>
+
+            <p class="ring-name">
+             3
+            </p>
+
+            <div class="nb-cta-area">
+              <a
+                class="nb-cta-btn"
+                href="https://www.instagram.com/petricore.obj/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                DISCOVER MORE
+              </a>
+
+            <div>
+          </article>
+
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ANELLI – GRID 3 PEZZI (seconda sezione, id univoco) -->
-  <section class="section rings" id="anelli-specs" aria-label="Dettagli Anelli Nabucodonosor" data-scroll-text="OBJECT 02">
-    <div class="rings-wrapper">
+    <!-- SEZIONE VIDEO A SCHERMO INTERO -->
+    <section class="full-video-section" data-scroll-text="The Project">
+      <video class="full-video" autoplay muted loop playsinline>
+        <source src="public/videos/DISSOLVE NABUCODONOSOR.mp4" type="video/mp4" />
+      </video>
 
-      <!-- Cornice esterna -->
-      <span class="rings-frame-corner rings-frame-tl"></span>
-      <span class="rings-frame-corner rings-frame-tr"></span>
-      <span class="rings-frame-corner rings-frame-bl"></span>
-      <span class="rings-frame-corner rings-frame-br"></span>
+      <div class="video-overlay"></div>
 
-      <!-- Griglia 3 colonne -->
-      <div class="rings-grid">
+      <div class="video-text-split">
+        <!-- SINISTRA -->
+        <div class="video-left">
+          <h1>THE PROJECT</h1>
+          <p>When the digital breathes into matter</p>
+        </div>
 
-        <!-- CARD 1 -->
-        <article class="ring-card">
-          <header class="ring-spec-center">
-            <h3>OBJECT DETECTED</h3>
-            <p>&gt; 0 – UNO</p>
-            <p>&gt; object unidentified</p>
-          </header>
-
-          <div class="ring-media">
-            <video
-              class="nb-image2"
-              src="public/videos/Timeline 2.mp4"
-              autoplay
-              muted
-              loop
-              playsinline
-            ></video>
-          </div>
-
-          <p class="ring-name">
-            N A B U C O D O N O S O R<br/>
-            <span class="ring-sub">R I N G</span>
+        <!-- DESTRA -->
+        <div class="video-right">
+          <p>
+            PETRICORE is a bridge between the archaic world and contemporary design. Ideas become tangible, giving space to ancient architectures that transform through modern technology into unique jewelry pieces. Sacred codes take shape as modern talismans.
           </p>
-
-          <button class="ring-cta" type="button">
-            DISCOVER MORE
-          </button>
-        </article>
-
-        <!-- CARD 2 -->
-        <article class="ring-card">
-          <header class="ring-spec-center">
-            <h3>MATERIAL SPECS</h3>
-            <p>&gt; 925 – STERLING SILVER</p>
-            <p>&gt; bronze</p>
-          </header>
-
-          <div class="ring-media">
-            <video
-              class="nb-image2"
-              src="public/videos/Timeline 3.mp4"
-              autoplay
-              muted
-              loop
-              playsinline
-            ></video>
-          </div>
-
-          <p class="ring-name">
-            N A B U C O D O N O S O R
-          </p>
-
-          <button class="ring-cta" type="button">
-            DISCOVER MORE
-          </button>
-        </article>
-
-        <!-- CARD 3 -->
-        <article class="ring-card">
-          <header class="ring-spec-center">
-            <h3>SIZE</h3>
-            <p>&gt; 925 – STERLING SILVER</p>
-            <p>&gt; bronze</p>
-          </header>
-
-          <div class="ring-media">
-            <video
-              class="nb-image2"
-              src="public/videos/Timeline 4.mp4"
-              autoplay
-              muted
-              loop
-              playsinline
-            ></video>
-          </div>
-
-          <p class="ring-name">
-            N A B U C O D O N O S O R
-          </p>
-
-          <button class="ring-cta" type="button">
-            DISCOVER MORE
-          </button>
-        </article>
-
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- SEZIONE VIDEO A SCHERMO INTERO -->
-  <section class="full-video-section" data-scroll-text="The Project">
-    <video class="full-video" autoplay muted loop playsinline>
-      <source src="public/videos/DISSOLVE NABUCODONOSOR.mp4" type="video/mp4" />
-    </video>
+    <!-- FOOTER -->
+    <footer>
+      © <span id="year"></span> email: leonardo.girotto@hotmail.it | insta &gt; @petricore.obj
+    </footer>
 
-    <div class="video-overlay"></div>
+    <!-- ====== SCRIPT JS ====== -->
 
-    <div class="video-text-split">
-      <!-- SINISTRA -->
-      <div class="video-left">
-        <h1>THE PROJECT</h1>
-        <p>When the digital breathes into matter</p>
-      </div>
+    <!-- Loader logic -->
 
-      <!-- DESTRA -->
-      <div class="video-right">
-        <h2>Leonardo Girotto</h2>
-        <p>
-          Descrizione racconto ecc...  
-          Un testo più lungo qui su più righe, con tono narrativo,
-          che descrive l'essenza del progetto, le intenzioni artistiche
-          e il dialogo tra luce, forma e processi digitali.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer>
-    © <span id="year"></span> email: jfdkslaj@gmail.com | insta &gt; @leogiruz
-  </footer>
-
-  <!-- Three.js app -->
-  <script type="module" src="src/main.js"></script>
-
-  <!-- Aggiornamento anno -->
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
-
-  <!-- Scroll fluido / lenta rotella -->
-  <script>
-    (function () {
-      const SCROLL_FACTOR = 0.35;  // wheel più lento = abbassa
-      const EASE = 0.18;           // easing “viscoso” dello scroll
-
-      let targetY = window.scrollY;
-      let currentY = window.scrollY;
-      let animating = false;
-
-      function clampScroll(y) {
-        const maxScroll =
-          document.documentElement.scrollHeight - window.innerHeight;
-        return Math.max(0, Math.min(y, maxScroll));
-      }
-
-      function smoothScrollTo(y) {
-        targetY = clampScroll(y);
-        if (!animating) {
-          animating = true;
-          requestAnimationFrame(updateScroll);
-        }
-      }
-
-      function updateScroll() {
-        currentY += (targetY - currentY) * EASE;
-        window.scrollTo(0, currentY);
-
-        if (Math.abs(targetY - currentY) > 0.5) {
-          requestAnimationFrame(updateScroll);
-        } else {
-          window.scrollTo(0, targetY);
-          animating = false;
-        }
-      }
-
-      // Scroll da rotella / trackpad
-      function onWheel(e) {
-        e.preventDefault(); // blocca lo scroll nativo
-        const delta = e.deltaY * SCROLL_FACTOR;
-        smoothScrollTo(targetY + delta);
-      }
-
-      window.addEventListener("wheel", onWheel, { passive: false });
-
-      // Scroll lento dai link con hash (#...)
-      const heroSection = document.getElementById("heroSection");
-
-      function handleNavClick(e) {
-        const link = e.target.closest('a[href^="#"]');
-        if (!link) return;
-
-        const hash = link.getAttribute("href");
-        if (!hash || hash === "#") return;
-
-        const targetEl = document.querySelector(hash);
-        if (!targetEl && hash !== "#jewel-1" && hash !== "#heroSection") return;
-
-        e.preventDefault();
-
-        // HOME → torna su
-        if (hash === "#heroSection") {
-          smoothScrollTo(0);
-          return;
+    <script>
+      (function () {
+        function showPage() {
+          if (document.body.classList.contains('is-loaded')) return;
+          document.body.classList.add('is-loaded');
         }
 
-        // Gioiello 1 è dentro la hero sticky
-        if (hash === "#jewel-1" && heroSection) {
-          const startY = heroSection.offsetTop;
-          const endY = startY + heroSection.offsetHeight - window.innerHeight;
-          const p = 0.66;
-          const y = startY + (endY - startY) * p;
-          smoothScrollTo(y);
-          return;
-        }
+        // Evento custom che lancerai da main.js quando il 3D è pronto
+        window.addEventListener('lumiere:ready', showPage);
 
-        // altri anchor (es. #anelli, #anelli-specs, ecc.)
-        const rect = targetEl.getBoundingClientRect();
-        const NAV_OFFSET = 80; // altezza ipotetica navbar
-        const y = rect.top + window.scrollY - NAV_OFFSET;
-
-        smoothScrollTo(y);
-      }
-
-      document.addEventListener("click", handleNavClick);
-    })();
-  </script>
-
-  <!-- Cursore custom + scia -->
-  <script>
-    (function () {
-      if (!window.matchMedia("(pointer: fine)").matches) return;
-
-      const cursor = document.getElementById("cursor");
-      if (!cursor) return;
-
-      const TRAIL_COUNT = 24;
-      const MAIN_SPEED  = 0.05;
-      const TRAIL_SPEED = 0.18;
-
-      let mouseX = window.innerWidth / 2;
-      let mouseY = window.innerHeight / 2;
-      let cx = mouseX;
-      let cy = mouseY;
-
-      const trails = [];
-      for (let i = 0; i < TRAIL_COUNT; i++) {
-        const dot = document.createElement("div");
-        dot.className = "cursor-trail";
-        dot.style.opacity = (1 - i / TRAIL_COUNT) * 0.6;
-        document.body.appendChild(dot);
-        trails.push({ el: dot, x: mouseX, y: mouseY });
-      }
-
-      window.addEventListener("mousemove", (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-        cursor.style.opacity = 1;
-      });
-
-      window.addEventListener("mouseleave", () => {
-        cursor.style.opacity = 0;
-        trails.forEach((t) => (t.el.style.opacity = 0));
-      });
-
-      window.addEventListener("mouseenter", () => {
-        trails.forEach((t, i) => {
-          t.el.style.opacity = (1 - i / TRAIL_COUNT) * 0.6;
+        // Fallback: se per qualche motivo l'evento non arriva,
+        // dopo il load della pagina togliamo comunque il loader.
+        window.addEventListener('load', function () {
+          setTimeout(showPage, 800);
         });
-      });
+      })();
+    </script>
 
-      function animate() {
-        cx += (mouseX - cx) * MAIN_SPEED;
-        cy += (mouseY - cy) * MAIN_SPEED;
+    <!-- Three.js app -->
+    <script type="module" src="src/main.js"></script>
 
-        cursor.style.transform =
-          `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
+    <!-- Aggiornamento anno -->
+    <script>
+      document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
 
-        let prevX = cx;
-        let prevY = cy;
+    <!-- Scroll fluido / lenta rotella -->
+    <script>
+      (function () {
+        const SCROLL_FACTOR = 0.35;  // wheel più lento = abbassa
+        const EASE = 0.18;           // easing “viscoso” dello scroll
 
-        trails.forEach((t) => {
-          t.x += (prevX - t.x) * TRAIL_SPEED;
-          t.y += (prevY - t.y) * TRAIL_SPEED;
-          t.el.style.transform = `translate(${t.x - 3}px, ${t.y - 3}px)`;
-          prevX = t.x;
-          prevY = t.y;
-        });
+        let targetY = window.scrollY;
+        let currentY = window.scrollY;
+        let animating = false;
 
-        requestAnimationFrame(animate);
-      }
+        function clampScroll(y) {
+          const maxScroll =
+            document.documentElement.scrollHeight - window.innerHeight;
+          return Math.max(0, Math.min(y, maxScroll));
+        }
 
-      animate();
-    })();
-  </script>
-
-<script>
-  (function () {
-    const labelEl = document.querySelector('.scroll-label');
-    if (!labelEl) return;
-
-    const hero = document.getElementById('heroSection');
-    const sections = document.querySelectorAll('section[data-scroll-text]');
-    if (!sections.length) return;
-
-    let currentText = labelEl.textContent.trim();
-
-    function setScrollText(newText) {
-      newText = (newText || '').trim();
-      if (!newText || newText === currentText) return;
-
-      currentText = newText;
-
-      // fade out + leggero shift
-      labelEl.classList.add('is-changing');
-
-      setTimeout(() => {
-        labelEl.textContent = newText;
-        labelEl.classList.remove('is-changing');
-      }, 180); // un filo meno della transition (0.25s)
-    }
-
-    // --- HERO: progress interno come nel main.js ---
-    function isInHeroRange() {
-      if (!hero) return false;
-      const startY = hero.offsetTop;
-      const endY = startY + hero.offsetHeight - window.innerHeight;
-      const y = window.scrollY;
-      return y >= startY && y <= endY;
-    }
-
-    function updateHeroLabel() {
-      if (!hero) return;
-
-      const startY = hero.offsetTop;
-      const endY = startY + hero.offsetHeight - window.innerHeight;
-      const clampedY = Math.min(Math.max(window.scrollY, startY), endY);
-      const denom = (endY - startY) || 1;
-      const p = (clampedY - startY) / denom; // 0..1
-
-      // stessa logica che usi per far apparire il gioiello:
-      // prima parte tunnel -> testo scroll
-      // parte finale quando appare il pannello -> OBJECT 0
-      const txt = p < 0.60
-        ? 'Scroll Deep and Slowly'
-        : 'OBJECT 0';
-
-      setScrollText(txt);
-    }
-
-    // --- IntersectionObserver per le altre sezioni ---
-    const observer = new IntersectionObserver(
-      (entries) => {
-        // Se siamo nella hero, ignora gli eventi: comanda il progress
-        if (isInHeroRange()) return;
-
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const txt = entry.target.getAttribute('data-scroll-text');
-            if (txt) setScrollText(txt);
+        function smoothScrollTo(y) {
+          targetY = clampScroll(y);
+          if (!animating) {
+            animating = true;
+            requestAnimationFrame(updateScroll);
           }
+        }
+
+        function updateScroll() {
+          currentY += (targetY - currentY) * EASE;
+          window.scrollTo(0, currentY);
+
+          if (Math.abs(targetY - currentY) > 0.5) {
+            requestAnimationFrame(updateScroll);
+          } else {
+            window.scrollTo(0, targetY);
+            animating = false;
+          }
+        }
+
+        // Scroll da rotella / trackpad
+        function onWheel(e) {
+          e.preventDefault();
+          const delta = e.deltaY * SCROLL_FACTOR;
+
+          const heroLock = window.__heroLock;
+          const startY = heroSection?.offsetTop || 0;
+
+          // consideriamo "inHero zone" finché sei nel range della hero sticky
+          const inHeroZone =
+            window.scrollY >= startY - 2 &&
+            window.scrollY <= startY + (heroSection?.offsetHeight || 0) - window.innerHeight + 2;
+
+          if (heroLock && inHeroZone) {
+            // 🔁 usa la wheel per muovere il progress avanti/indietro
+            const SENS = 0.0009; // stessa sensibilità
+            const nextP = heroLock.progress + delta * SENS;
+
+            // se stai tornando indietro, forza il lock
+            if (nextP < 1) {
+              // quando scendi sotto 1, vogliamo che la pagina resti nella hero
+              // (evita che scrolli via mentre fai reverse)
+              heroLock.setProgress(nextP);
+              smoothScrollTo(startY);
+              return;
+            }
+
+            // se vai avanti oltre 1, sblocchi e scroll normale
+            heroLock.setProgress(nextP);
+            if (heroLock.locked) {
+              smoothScrollTo(startY);
+              return;
+            }
+          }
+
+          // scroll normale fuori hero
+          smoothScrollTo(targetY + delta);
+        }
+
+
+        window.addEventListener("wheel", onWheel, { passive: false });
+
+        // Scroll lento dai link con hash (#...)
+        const heroSection = document.getElementById("heroSection");
+
+        function handleNavClick(e) {
+          const link = e.target.closest('a[href^="#"]');
+          if (!link) return;
+
+          const hash = link.getAttribute("href");
+          if (!hash || hash === "#") return;
+
+          const targetEl = document.querySelector(hash);
+          if (!targetEl && hash !== "#jewel-1" && hash !== "#heroSection") return;
+
+          e.preventDefault();
+
+          // HOME → torna su
+          if (hash === "#heroSection") {
+            smoothScrollTo(0);
+            return;
+          }
+
+          // Gioiello 1 è dentro la hero sticky
+          if (hash === "#jewel-1" && heroSection) {
+            const startY = heroSection.offsetTop;
+            const endY = startY + heroSection.offsetHeight - window.innerHeight;
+            const p = 0.66;
+            const y = startY + (endY - startY) * p;
+            smoothScrollTo(y);
+            return;
+          }
+
+          // altri anchor (es. #anelli, #anelli-specs, ecc.)
+          const rect = targetEl.getBoundingClientRect();
+          const NAV_OFFSET = 80; // altezza ipotetica navbar
+          const y = rect.top + window.scrollY - NAV_OFFSET;
+
+          smoothScrollTo(y);
+        }
+
+        document.addEventListener("click", handleNavClick);
+      })();
+    </script>
+
+    <!-- Cursore custom + scia -->
+    <script>
+      (function () {
+        if (!window.matchMedia("(pointer: fine)").matches) return;
+
+        const cursor = document.getElementById("cursor");
+        if (!cursor) return;
+
+        const TRAIL_COUNT = 24;
+        const MAIN_SPEED  = 0.05;
+        const TRAIL_SPEED = 0.18;
+
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+        let cx = mouseX;
+        let cy = mouseY;
+
+        const trails = [];
+        for (let i = 0; i < TRAIL_COUNT; i++) {
+          const dot = document.createElement("div");
+          dot.className = "cursor-trail";
+          dot.style.opacity = (1 - i / TRAIL_COUNT) * 0.6;
+          document.body.appendChild(dot);
+          trails.push({ el: dot, x: mouseX, y: mouseY });
+        }
+
+        window.addEventListener("mousemove", (e) => {
+          mouseX = e.clientX;
+          mouseY = e.clientY;
+          cursor.style.opacity = 1;
         });
-      },
-      {
-        root: null,
-        threshold: 0.45,
-        rootMargin: '0px 0px -15% 0px'
-      }
-    );
 
-    sections.forEach((sec) => observer.observe(sec));
+        window.addEventListener("mouseleave", () => {
+          cursor.style.opacity = 0;
+          trails.forEach((t) => (t.el.style.opacity = 0));
+        });
 
-    // sync iniziale
-    if (isInHeroRange()) {
-      updateHeroLabel();
-    }
+        window.addEventListener("mouseenter", () => {
+          trails.forEach((t, i) => {
+            t.el.style.opacity = (1 - i / TRAIL_COUNT) * 0.6;
+          });
+        });
 
-    // scroll listener per la hero
-    window.addEventListener('scroll', () => {
-      if (isInHeroRange()) {
-        updateHeroLabel();
-      }
-    }, { passive: true });
-  })();
-</script>
+        function animate() {
+          cx += (mouseX - cx) * MAIN_SPEED;
+          cy += (mouseY - cy) * MAIN_SPEED;
 
+          cursor.style.transform =
+            `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
 
+          let prevX = cx;
+          let prevY = cy;
+
+          trails.forEach((t) => {
+            t.x += (prevX - t.x) * TRAIL_SPEED;
+            t.y += (prevY - t.y) * TRAIL_SPEED;
+            t.el.style.transform = `translate(${t.x - 3}px, ${t.y - 3}px)`;
+            prevX = t.x;
+            prevY = t.y;
+          });
+
+          requestAnimationFrame(animate);
+        }
+
+        animate();
+      })();
+    </script>
+
+    <!-- Scroll label dinamico -->
+    <script>
+      (function () {
+        // 1) Oltre alla label centrale, prendi il titolo della navbar
+        const labelEl = document.querySelector('.scroll-label');
+        const navTitleEl = document.getElementById('navTitle'); // <— assicurati che esista nell’HTML della navbar
+
+        window.__setTopLabel = (txt) => {
+          if (!labelEl) return;
+          labelEl.textContent = txt;
+        };
+
+    
+        if (!labelEl && !navTitleEl) return;
+    
+        const hero = document.getElementById('heroSection');
+        const sections = document.querySelectorAll('section[data-scroll-text]');
+        if (!sections.length) return;
+    
+        let currentText = (labelEl?.textContent || navTitleEl?.textContent || '').trim();
+    
+        // 2) Aggiorna SIA la label, SIA la navbar
+        function setScrollText(newText) {
+          newText = (newText || '').trim();
+          if (!newText || newText === currentText) return;
+          currentText = newText;
+    
+          if (labelEl) {
+            labelEl.classList.add('is-changing');
+            setTimeout(() => {
+              labelEl.textContent = newText;
+              labelEl.classList.remove('is-changing');
+            }, 180);
+          }
+          if (navTitleEl) {
+            navTitleEl.textContent = newText; // niente animazione per tenerla “ferma” come vuoi tu
+          }
+        }
+    
+        // --- HERO: progress interno (resta com’era, ma ora aggiorna anche la navbar)
+        function isInHeroRange() {
+          if (!hero) return false;
+          const startY = hero.offsetTop;
+          const endY = startY + hero.offsetHeight - window.innerHeight;
+          const y = window.scrollY;
+          return y >= startY && y <= endY;
+        }
+    
+        function updateHeroLabel() {
+          if (!hero) return;
+          const startY = hero.offsetTop;
+          const endY = startY + hero.offsetHeight - window.innerHeight;
+          const clampedY = Math.min(Math.max(window.scrollY, startY), endY);
+          const denom = (endY - startY) || 1;
+          const p = (clampedY - startY) / denom; // 0..1
+    
+          const txt = p < 0.60 ? 'Scroll Down Slowly' : 'OBJECT 00';
+          setScrollText(txt);
+        }
+    
+        // --- Observer per le altre sezioni (come prima, ma ora chiama setScrollText che aggiorna anche la navbar)
+        const observer = new IntersectionObserver(
+          (entries) => {
+            if (isInHeroRange()) return;
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                const txt = entry.target.getAttribute('data-scroll-text');
+                if (txt) setScrollText(txt);
+              }
+            });
+          },
+          {
+            root: null,
+            threshold: 0.45,
+            rootMargin: '0px 0px -15% 0px'
+          }
+        );
+    
+        sections.forEach((sec) => observer.observe(sec));
+    
+        // sync iniziale + scroll
+        if (isInHeroRange()) updateHeroLabel();
+        window.addEventListener('scroll', () => {
+          if (isInHeroRange()) updateHeroLabel();
+        }, { passive: true });
+      })();
+    </script>
+    
+
+  </div> <!-- /#page -->
 </body>
 </html>

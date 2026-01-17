@@ -1,24 +1,142 @@
-:root {
+/* =========================================================
+   THEME / TOKENS
+   ========================================================= */
+   :root {
     --bg: #000000;
     --fg: #eaeaea;
     --muted: #bdbdbd;
     --line: rgba(255, 255, 255, 0);
     --accent: #e8d8b7; /* tono “oro” soft */
+    --topbar-h: 80px;
+  }
+
+  img, video {
+    max-width: 100%;
+    height: auto;
+    display: block;
   }
   
-  /* Base */
+  
+  /* =========================================================
+     BASE / LAYOUT
+     ========================================================= */
   html,
   body {
     margin: 0;
     background: var(--bg);
     color: var(--fg);
-    font-family: "Raleway", system-ui, sans-serif;
+    font-family: "IBM Plex Mono", monospace;
     letter-spacing: 0.04em;
     cursor: none; /* cursore di sistema nascosto */
+    overflow-x: hidden;
+  }
+
+  .nb-cta-btn {
+    text-decoration: none;
   }
   
-  /* ===================== SCROLL BAR SUPERIORE ===================== */
+  .page-container {
+        max-width: 1400px; 
+        margin: 0 auto; 
+        padding: 0 4vw; /* o 16px */
+        box-sizing: border-box;
+  }
   
+  /* =========================================================
+     LOADER FULLSCREEN + PAGE FADE-IN
+     ========================================================= */
+  body.is-loading {
+    overflow: hidden;
+  }
+  
+  .site-loader {
+    position: fixed;
+    inset: 0;
+    z-index: 999999;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.7s ease, visibility 0.7s ease;
+  }
+  
+  .loader-frame {
+    position: relative;
+    width: min(420px, 80vw);
+    padding: 60px 48px;
+    text-align: center;
+  }
+  
+  .loader-logo {
+    width: clamp(260px, 26vw, 420px);
+    height: auto;
+  }
+  
+  .loader-corner {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    border-color: #ffffff;
+    border-style: solid;
+    pointer-events: none;
+  }
+  
+  .loader-corner.tl {
+    top: 20px;
+    left: 20px;
+    border-width: 2px 0 0 2px;
+  }
+  .loader-corner.tr {
+    top: 20px;
+    right: 20px;
+    border-width: 2px 2px 0 0;
+  }
+  .loader-corner.bl {
+    bottom: 20px;
+    left: 20px;
+    border-width: 0 0 2px 2px;
+  }
+  .loader-corner.br {
+    bottom: 20px;
+    right: 20px;
+    border-width: 0 2px 2px 0;
+  }
+  
+  .loader-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: #fff;
+  }
+  
+  .loader-title {
+    font-size: 0.8rem;
+  }
+  
+  .page {
+    opacity: 0;
+    filter: blur(4px);
+    transition: opacity 0.7s ease, filter 0.7s ease;
+  }
+  
+  body.is-loaded .site-loader {
+    opacity: 0;
+    visibility: hidden;
+  }
+  
+  body.is-loaded .page {
+    opacity: 1;
+    filter: blur(0);
+  }
+  
+  /* =========================================================
+     TOP SCROLL BAR
+     ========================================================= */
   .scroll {
     position: fixed;
     top: 0;
@@ -33,6 +151,8 @@
     align-items: center;
     justify-content: center;
     gap: 0.75rem;
+
+    height: var(--topbar-h); padding: 0; 
   
     color: #ffffff;
     background: rgba(0, 0, 0, 0.238);
@@ -42,24 +162,20 @@
     text-transform: uppercase;
   }
   
-  /* testi */
   .scroll-label {
     opacity: 0.75;
     transition: opacity 0.25s ease, transform 0.25s ease;
   }
   
-  /* stato temporaneo mentre cambiamo testo */
   .scroll-label.is-changing {
     opacity: 0;
     transform: translateY(-4px);
   }
   
-  
   .scroll-label.alt {
     opacity: 0.55;
   }
   
-  /* contenitore frecce */
   .scroll-arrows {
     display: inline-flex;
     align-items: center;
@@ -68,7 +184,6 @@
     margin: 0 0.75rem;
   }
   
-  /* singola freccia a chevron */
   .scroll-arrows .arrow {
     width: 9px;
     height: 9px;
@@ -79,7 +194,6 @@
     animation: arrow-bounce 1.4s infinite;
   }
   
-  /* seconda e terza freccia sfalsate */
   .scroll-arrows .arrow:nth-child(2) {
     animation-delay: 0.2s;
   }
@@ -94,7 +208,6 @@
     height: 100%;
   }
   
-  /* animazione frecce */
   @keyframes arrow-bounce {
     0% {
       transform: translateY(0) rotate(-45deg);
@@ -113,8 +226,9 @@
     }
   }
   
-  /* ===================== CURSORE CUSTOM ===================== */
-  
+  /* =========================================================
+     CUSTOM CURSOR + TRAIL
+     ========================================================= */
   #cursor {
     position: fixed;
     top: 0;
@@ -127,7 +241,6 @@
     opacity: 0; /* portata a 1 al primo movimento */
   }
   
-  /* 4 angoli tipo mirino */
   #cursor .cursor-corner {
     position: absolute;
     width: 9px;
@@ -160,7 +273,6 @@
     border-top: none;
   }
   
-  /* puntino centrale */
   #cursor .cursor-dot {
     position: absolute;
     top: 50%;
@@ -172,7 +284,6 @@
     transform: translate(-50%, -50%);
   }
   
-  /* particelle di scia */
   .cursor-trail {
     position: fixed;
     width: 6px;
@@ -185,28 +296,22 @@
     opacity: 1;
   }
   
-  /* ===================== HERO STICKY / CANVAS 3D ===================== */
-  
-  .sticky-section {
-    height: 320svh;
+  /* =========================================================
+     HERO STICKY / CANVAS 3D
+     ========================================================= */
+/* HERO full-bleed anche dentro un container centrato */
+.sticky-section {
     position: relative;
+    width: 100vw;
+    left: 50%;
+    margin-left: -50vw;
   }
   
-  .sticky-inner {
-    position: sticky;
-    top: 0;
-    height: 100svh;
-    overflow: hidden;
-  }
+
+
+  .sticky-inner { position: sticky; top: 0; height: 100svh; overflow: hidden; }
+   canvas.webgl { width: 100%; height: 100%; display: block; }
   
-  canvas.webgl {
-    position: absolute;
-    inset: 0;
-    display: block;
-    z-index: 0;
-  }
-  
-  /* Logo centrale */
   .center-logo {
     position: absolute;
     top: 40%;
@@ -221,12 +326,13 @@
     will-change: transform, opacity;
   }
   
-  /* ===================== SEZIONI GENERICHE ===================== */
-  
+  /* =========================================================
+     GENERIC SECTIONS
+     ========================================================= */
   .section {
     padding: 8svh 6svw 10svh;
     border-top: 1px solid var(--line);
-    scroll-margin-top: 80px; /* per compensare la barra top */
+    scroll-margin-top: calc(var(--topbar-h) + 10px); 
   }
   
   .section h2 {
@@ -243,33 +349,54 @@
     margin: 0.5rem 0 2rem;
   }
   
-  /* ===================== GIOIELLO 1 – PANEL NELLA HERO ===================== */
-  
+  /* =========================================================
+     JEWEL HERO PANEL (NB)
+     ========================================================= */
   .jewel-hero-panel {
+    padding: 0 6vw; /* uguale a .rings */
+    box-sizing: border-box;
     justify-content: center;
     position: absolute;
     left: 50%;
     top: 10%;
-    transform: translate(-50%, 25vh); /* leggermente meno basso (prima 30vh) */
+    transform: translate(-50%, 25vh);
     width: 100%;
     display: flex;
-    pointer-events: none; /* opzionale, se non vuoi click qui */
+    pointer-events: none;
   }
   
   .jewel-hero-panel .nb-wrapper {
-    pointer-events: auto; /* ma il contenuto resta cliccabile */
+    pointer-events: auto;
   }
   
-  
-  
-  /* wrapper centrale con frame che abbraccia tutto */
-  .nb-wrapper {
+  /* =========================================================
+     FRAME WRAPPER (shared pattern)
+     ========================================================= */
+  .nb-wrapper,
+  .rings-wrapper {
     position: relative;
-    width: min(1200px, 92vw);
-    padding: 96px 96px 80px;
+    width: min(1120px, 92vw);
+    padding: 96px 80px 80px;
+    min-height: min(720px, 80svh);
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
   }
   
-  /* griglia interna: 3 colonne */
+  .nb-grid,
+  .rings-grid {
+    width: 100%;
+    flex: 1;
+  }
+  
+  /* =========================================================
+     NB GRID (3 columns)
+     ========================================================= */
+     .nb-wrapper {
+        padding: 96px 80px 80px; /* uguale a rings */
+      }
+      
+  
   .nb-grid {
     display: grid;
     grid-template-columns: 0.5fr 1.5fr 0.5fr;
@@ -278,8 +405,7 @@
     justify-items: center;
   }
   
-  /* --- CORNICI ESTERNE --- */
-  
+  /* corners */
   .nb-frame-corner {
     position: absolute;
     width: 46px;
@@ -310,8 +436,7 @@
     border-width: 0 2px 2px 0;
   }
   
-  /* --- COLONNA SINISTRA: SPECS --- */
-  
+  /* left specs */
   .nb-specs {
     display: flex;
     flex-direction: column;
@@ -334,26 +459,29 @@
     color: var(--muted);
   }
   
-  /* --- COLONNA CENTRALE --- */
-  
+  /* center */
   .nb-main {
+    overflow: hidden; 
     text-align: center;
   }
   
   .nb-image {
-    max-height: 20vh;
+    max-height: 35vh;
     width: auto;
     display: block;
     margin: 0 auto;
     background-size: cover;
-    transform: scale(3.5);
+    transform: scale(1.8);
+    object-fit: contain;
   }
   
   .nb-image2 {
-    max-height: 20vh;
+    padding-bottom: 1.3rem;
+    max-height: 18vh;
     width: auto;
     display: block;
     margin: 0 auto;
+    object-fit: contain;
   }
   
   .nb-image3 {
@@ -371,12 +499,11 @@
     text-transform: uppercase;
   }
   
-  /* --- COLONNA DESTRA: CTA --- */
-  
+  /* right CTA */
   .nb-cta-area {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     gap: 18px;
     font-size: 0.78rem;
     letter-spacing: 0.12em;
@@ -408,69 +535,9 @@
     text-transform: uppercase;
   }
   
-  /* ===================== RESPONSIVE GIOIELLO ===================== */
-  
-  @media (max-width: 900px) {
-    .nb-wrapper {
-      padding: 84px 44px 54px;
-    }
-
-    .nb-image3 {
-        max-height: 15vh;
-        width: auto;
-        display: block;
-        margin: 0 auto;
-        padding-bottom: 2.5rem;
-      }
-
-      .nb-image{
-        max-height: 35vh;
-      width: auto;
-      display: block;
-      margin: 0 auto;
-      background-size: cover;
-      transform: scale(1);
-      clip-path: inset(20% 5% 15% 20%);
-      }
-      
-  
-    .nb-grid {
-      grid-template-columns: 1fr;
-      row-gap: 28px;
-      text-align: center;
-    }
-  
-    .nb-specs {
-      align-items: flex-start;
-      text-align: left;
-    }
-
-    .nb-specs-block,.mobile {
-        display: none !important;
-      }
-  
-    .nb-main {
-      order: 2;
-    }
-  
-    .nb-cta-area {
-      order: 3;
-      align-items: center;
-      text-align: center;
-    }
-  
-    .nb-frame-tl,
-    .nb-frame-tr {
-      top: 26px;
-    }
-    .nb-frame-bl,
-    .nb-frame-br {
-      bottom: 18px;
-    }
-  }
-  
-  /* ===================== ANELLI – GRID 3 PEZZI ===================== */
-  
+  /* =========================================================
+     RINGS (3 cards)
+     ========================================================= */
   .rings {
     min-height: 100vh;
     display: flex;
@@ -481,30 +548,7 @@
     scroll-margin-top: 80px;
   }
   
-  /* === WRAPPER COMUNE PER LE SEZIONI CON CORNICE === */
-
-.rings-wrapper,
-.nb-wrapper {
-  position: relative;
-  width: min(1200px, 92vw);
-  padding: 96px 80px 80px;
-  /* occupa buona parte della view ma non 100% */
-  min-height: min(720px, 80svh);
-
-  display: flex;
-  align-items: center;
-  box-sizing: border-box;
-}
-
-/* la griglia interna si allarga in orizzontale */
-.rings-grid,
-.nb-grid {
-  width: 100%;
-  flex: 1;
-}
-
-  
-  /* Cornici */
+  /* corners */
   .rings-frame-corner {
     position: absolute;
     width: 46px;
@@ -535,14 +579,13 @@
     border-width: 0 2px 2px 0;
   }
   
-  /* Griglia 3 colonne */
+  /* grid */
   .rings-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     column-gap: 72px;
   }
   
-  /* Card singola */
   .ring-card {
     text-align: center;
     display: flex;
@@ -550,8 +593,6 @@
     justify-content: center;
   }
   
-  
-  /* blocco testo in alto */
   .ring-spec-center {
     text-align: center;
     font-size: 0.78rem;
@@ -573,16 +614,16 @@
     color: var(--muted);
   }
   
-  /* media anello */
   .ring-media,
   .ring-media2 {
+    width: 100%;
+    max-width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     margin-bottom: 22px;
   }
   
-  /* nome anello */
   .ring-name {
     margin: 0 0 18px;
     font-size: 0.78rem;
@@ -596,10 +637,9 @@
     letter-spacing: 0.38em;
   }
   
-  /* bottone */
   .ring-cta {
     margin: auto;
-    width: 44%;
+    width: 50%;
     appearance: none;
     border: 1px solid #ffffff;
     background: #ffffff;
@@ -617,58 +657,11 @@
     color: #ffffff;
   }
   
-  /* Responsive anelli */
-  @media (max-width: 900px) {
-    .mobile {
-        display: none !important;
-    }
-
-    .rings {
-      padding: 0 4vw;
-    }
-  
-    /* === WRAPPER COMUNE PER LE SEZIONI CON CORNICE === */
-
-    .rings-wrapper,
-    .nb-wrapper {
-        margin-top: 5rem;
-      padding: 84px 32px 54px;
-      min-height: 80svh; /* anche su mobile “pagina” piena */
-    }
-
-/* la griglia interna si allarga in orizzontale */
-.rings-grid,
-.nb-grid {
-  width: 100%;
-  flex: 1;
-}
-
-.rings-grid,
-.nb-grid {
-  flex-direction: column;
-}
-
-    .rings-grid {
-      grid-template-columns: 1fr;
-      row-gap: 48px;
-    }
-  
-    .rings-frame-tl,
-    .rings-frame-tr {
-      top: 26px;
-    }
-    .rings-frame-bl,
-    .rings-frame-br {
-      bottom: 26px;
-    }
-  }
-  
-  /* ============================= */
-  /* Fullscreen Video Section      */
-  /* ============================= */
-  
+  /* =========================================================
+     FULLSCREEN VIDEO SECTION
+     ========================================================= */
   .full-video-section {
-      margin-top: 5rem;
+    margin-top: 5rem;
     position: relative;
     width: 100%;
     height: 100vh;
@@ -693,7 +686,6 @@
     z-index: 2;
   }
   
-  /* Split text layout */
   .video-text-split {
     position: absolute;
     inset: 0;
@@ -707,7 +699,7 @@
     color: white;
   }
   
-  /* sinistra */
+  /* left */
   .video-left {
     max-width: 40%;
   }
@@ -724,7 +716,7 @@
     max-width: 80%;
   }
   
-  /* destra */
+  /* right */
   .video-right {
     max-width: 30%;
     text-align: right;
@@ -743,16 +735,129 @@
     font-size: 1rem;
   }
   
-  /* responsive video split */
+  /* =========================================================
+     FOOTER
+     ========================================================= */
+  footer {
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.9rem;
+    padding: 4rem 0;
+    border-top: 1px solid var(--line);
+  }
+  
+  /* =========================================================
+     RESPONSIVE (MOBILE FIRST OVERRIDE)
+     ========================================================= */
   @media (max-width: 900px) {
+    /* util */
+    .mobile {
+      display: none !important;
+    }
+  
+    /* NB */
+    .nb-wrapper {
+      padding: 84px 44px 54px;
+    }
+  
+    .jewel-hero-panel {
+      top: 0%;
+      transform: translate(-50%, 25vh);
+    }
+  
+    .nb-grid {
+      grid-template-columns: 1fr;
+      row-gap: 28px;
+      text-align: center;
+    }
+  
+    .nb-specs {
+      align-items: flex-start;
+      text-align: left;
+    }
+  
+    .nb-specs-block,
+    .mobile {
+      display: none !important;
+    }
+  
+    .nb-main {
+        overflow: hidden; 
+      order: 2;
+    }
+  
+    .nb-cta-area {
+      order: 3;
+      align-items: center;
+      text-align: center;
+    }
+  
+    .nb-frame-tl,
+    .nb-frame-tr {
+      top: 26px;
+    }
+    .nb-frame-bl,
+    .nb-frame-br {
+      bottom: 18px;
+    }
+  
+    .nb-image {
+        object-fit: contain;
+      max-height: 35vh;
+      transform: scale(1);
+      clip-path: inset(20% 5% 15% 20%);
+    }
+  
+    .nb-image3 {
+        object-fit: contain;
+      max-height: 15vh;
+      padding-bottom: 2.5rem;
+    }
+  
+    /* RINGS */
+    .rings {
+      padding: 0 4vw;
+    }
+  
+    .rings-wrapper,
+    .nb-wrapper {
+      padding: 84px 32px 54px;
+      min-height: 80svh;
+    }
+  
+    .rings-grid {
+      grid-template-columns: 1fr;
+      row-gap: 48px;
+    }
+  
+    .rings-frame-tl,
+    .rings-frame-tr {
+      top: 26px;
+    }
+    .rings-frame-bl,
+    .rings-frame-br {
+      bottom: 26px;
+    }
+  
+    /* VIDEO (mobile) */
+    .full-video-section {
+      height: 100svh;
+    }
+  
+    .full-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  
     .video-text-split {
-        flex-direction: column;
-        justify-content: center;   /* VERTICALE: centro */
-        align-items: center;       /* ORIZZONTALE: centro */
-        text-align: center;
-        gap: 2rem;
-        padding: 0 2rem;
-      }
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      gap: 2rem;
+      padding: 0 2rem;
+    }
   
     .video-left,
     .video-right {
@@ -763,46 +868,9 @@
     .video-left h1 {
       font-size: 2.4rem;
     }
-  }
-
-  .full-video-section {
-    height: 100svh; /* su mobile: full screen reale */
-  }
-
-  .full-video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* riempie tutto lo schermo */
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-
- 
-
-  .video-left p {
-    opacity: 0.8;
-    font-size: 1.1rem;
-    max-width: 100%;
-  }
-
-  .video-left,
-  .video-right {
-    text-align: center;
-  }
-
-  .video-left h1 {
-    font-size: 2.4rem;
-  }
-
   
-  /* ===================== FOOTER ===================== */
-  
-  footer {
-    text-align: center;
-    color: var(--muted);
-    font-size: 0.9rem;
-    padding: 4rem 0;
-    border-top: 1px solid var(--line);
+    .video-left p {
+      max-width: 100%;
+    }
   }
   
